@@ -13,7 +13,7 @@
 ## Sand
 For the moment, sand is the only feature available. To test it, just drag your mouse across the screen. Also, I think that sand is the easiest part of the simulation as it took me less than a day to implement it.
 
-### Upcoming Features
+## Upcoming Features
 
 Some of the feature i would like to add are: 
 - [ ] Multi-threading
