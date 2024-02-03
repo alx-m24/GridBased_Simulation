@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include <thread>
 #include "Useful.hpp"
 #include "Common.hpp"
 
@@ -34,6 +35,13 @@ public:
 	void resetGrid(std::vector<std::vector<Cell>>* g);
 	void swapGrids();
 	void gravity();
+
+	void update1();
+	void update2();
+	void update3();
+	void update4();
+	void Multigravity();
+
 	bool inBoundsX(unsigned int i);
 	bool inBoundsY(unsigned int j);
 private:
@@ -42,8 +50,6 @@ private:
 	sf::Vector2u cellSize;
 	sf::Vector2u gridSize;
 	sf::Vector2u cellNum;
-
-	bool lastLeft = false, lastFrame = false;
 
 	void mouseDrag();
 };

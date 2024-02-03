@@ -1,4 +1,5 @@
 #include "Useful.hpp"
+#include <iostream>
 
 void setupfps(sf::Text* fpsText) {
 	fpsText->setFont(arial);
@@ -22,9 +23,20 @@ void fps(sf::Text* fpsText, sf::Clock* clock, unsigned int* Frame)
 void setupWindow()
 {
 	window->setPosition(window->getPosition() - sf::Vector2i(0, 50));
-	window->setVerticalSyncEnabled(true);
+	//window->setVerticalSyncEnabled(true);
+
+	std::cout << "Set your fps limit: ";
+	int fpsLimit;
+	std::cin >> fpsLimit;
+	std::cout << std::endl;
+	window->setFramerateLimit(abs(fpsLimit));
 	windowSize = sf::Vector2f(window->getSize());
 	arial.loadFromFile("C:/Windows/Fonts/arial.ttf");
+}
+
+void hideConsole()
+{
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
 }
 
 int rand50()

@@ -22,13 +22,15 @@ int main() {
 	sf::RenderWindow Mainwindow(sf::VideoMode(800, 600), "Grid Simulation", sf::Style::Close, settings);
 	window = &Mainwindow;
 	setupWindow();
+	hideConsole();
 
+	// Getting random seed
 	srand(time(0));
 
 	// my main loop class
 	Loop loop;
 
-	Grid g(10);
+	Grid g(4);
 
 	sf::Text fpsText;
 	setupfps(&fpsText);

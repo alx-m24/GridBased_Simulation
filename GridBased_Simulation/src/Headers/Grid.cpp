@@ -53,9 +53,14 @@ Grid::Grid(unsigned int CellSize)
 
 void Grid::update()
 {
-	mouseDrag();
-	gravity();
+	std::thread t1(&Grid::mouseDrag, this);
+	//mouseDrag();
+
+	//gravity();
+	Multigravity();
 	swapGrids();
+
+	t1.join();
 }
 
 void Grid::draw()
@@ -112,28 +117,135 @@ void Grid::gravity()
 	}
 }
 
+void Grid::update1() {
+	for (int i = 0; i < cellNum.x / 2; ++i) {
+		for (int j = 0; j < cellNum.y / 2; ++j) {
+			if (grid[i][j]->state) {
+				if (inBoundsY(j + 1)) {
+					if (!grid[i][j + 1]->state) {
+						backGrid[i][j + 1]->state = 1;
+					}
+					else {
+						int dir = (rand50() == 0) ? -1 : 1;
+
+						if (inBoundsX(i + dir) && !grid[i + dir][j + 1]->state) backGrid[i + dir][j + 1]->state = 1;
+						else if (inBoundsX(i - dir) && !grid[i - dir][j + 1]->state) backGrid[i - dir][j + 1]->state = 1;
+						else backGrid[i][j]->state = 1;
+					}
+				}
+				else backGrid[i][j]->state = 1;
+			}
+		}
+	}
+}
+void Grid::update2() {
+	for (int i = cellNum.x / 2; i < cellNum.x; ++i) {
+		for (int j = 0; j < cellNum.y / 2; ++j) {
+			if (grid[i][j]->state) {
+				if (inBoundsY(j + 1)) {
+					if (!grid[i][j + 1]->state) {
+						backGrid[i][j + 1]->state = 1;
+					}
+					else {
+						int dir = (rand50() == 0) ? -1 : 1;
+
+						if (inBoundsX(i + dir) && !grid[i + dir][j + 1]->state) backGrid[i + dir][j + 1]->state = 1;
+						else if (inBoundsX(i - dir) && !grid[i - dir][j + 1]->state) backGrid[i - dir][j + 1]->state = 1;
+						else backGrid[i][j]->state = 1;
+					}
+				}
+				else backGrid[i][j]->state = 1;
+			}
+		}
+	}
+}
+void Grid::update3() {
+	for (int i = 0; i < cellNum.x / 2; ++i) {
+		for (int j = cellNum.y / 2; j < cellNum.y; ++j) {
+			if (grid[i][j]->state) {
+				if (inBoundsY(j + 1)) {
+					if (!grid[i][j + 1]->state) {
+						backGrid[i][j + 1]->state = 1;
+					}
+					else {
+						int dir = (rand50() == 0) ? -1 : 1;
+
+						if (inBoundsX(i + dir) && !grid[i + dir][j + 1]->state) backGrid[i + dir][j + 1]->state = 1;
+						else if (inBoundsX(i - dir) && !grid[i - dir][j + 1]->state) backGrid[i - dir][j + 1]->state = 1;
+						else backGrid[i][j]->state = 1;
+					}
+				}
+				else backGrid[i][j]->state = 1;
+			}
+		}
+	}
+}
+void Grid::update4() {
+	for (int i = cellNum.x / 2; i < cellNum.x; ++i) {
+		for (int j = cellNum.y / 2; j < cellNum.y; ++j) {
+			if (grid[i][j]->state) {
+				if (inBoundsY(j + 1)) {
+					if (!grid[i][j + 1]->state) {
+						backGrid[i][j + 1]->state = 1;
+					}
+					else {
+						int dir = (rand50() == 0) ? -1 : 1;
+
+						if (inBoundsX(i + dir) && !grid[i + dir][j + 1]->state) backGrid[i + dir][j + 1]->state = 1;
+						else if (inBoundsX(i - dir) && !grid[i - dir][j + 1]->state) backGrid[i - dir][j + 1]->state = 1;
+						else backGrid[i][j]->state = 1;
+					}
+				}
+				else backGrid[i][j]->state = 1;
+			}
+		}
+	}
+}
+
+// MultiThreading
+void Grid::Multigravity()
+{
+	std::thread t1(&Grid::update1, this);
+	std::thread t2(&Grid::update2, this);
+	std::thread t3(&Grid::update3, this);
+	std::thread t4(&Grid::update4, this);
+
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
+}
+
 bool Grid::inBoundsX(unsigned int i)
 {
-	return i < cellNum.x && i > 0;
+	return i < cellNum.x && i >= 0;
 }
 
 bool Grid::inBoundsY(unsigned int j)
 {
-	return j < cellNum.y && j > 0;
+	return j < cellNum.y && j >= 0;
 }
 
 void Grid::mouseDrag()
 {
 	bool left = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-	//if (left && !lastLeft) {
+
 	if (left) {
-		if (!lastFrame) {
-			if (mousePos.x > 0 && mousePos.x < windowSize.x && mousePos.y > 0 && mousePos.y < windowSize.y) {
-				const sf::Vector2i pos = sf::Vector2i(mousePos.x / cellSize.x, mousePos.y / cellSize.y);
-				grid[pos.x][pos.y]->state = 1;
+		const sf::Vector2i pos = sf::Vector2i(mousePos.x / cellSize.x, mousePos.y / cellSize.y);
+		if (inBoundsX(pos.x) && inBoundsY(pos.y)) {
+			grid[pos.x][pos.y]->state = 1;
+			if (inBoundsX(pos.x - 1) && inBoundsY(pos.y - 1) && inBoundsX(pos.x + 1) && inBoundsY(pos.y + 1)) {
+				grid[pos.x - 1][pos.y - 1]->state = 1;
+				grid[pos.x - 1][pos.y]->state = 1;
+				grid[pos.x - 1][pos.y + 1]->state = 1;
+
+				grid[pos.x][pos.y - 1]->state = 1;
+				grid[pos.x][pos.y + 1]->state = 1;
+
+				grid[pos.x + 1][pos.y - 1]->state = 1;
+				grid[pos.x + 1][pos.y]->state = 1;
+				grid[pos.x + 1][pos.y + 1]->state = 1;
 			}
 		}
-		lastFrame = !lastFrame;
 	}
-	lastLeft = left;
 }
