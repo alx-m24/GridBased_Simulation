@@ -16,7 +16,7 @@ For the moment, sand is the only feature available. To test it, just drag your m
 ## Upcoming Features
 
 Some of the feature i would like to add are: 
-- [ ] Multi-threading
+- [x] Multi-threading (Done)
 - [ ] Fluids
 - [ ] Air/Gasses
 - [ ] Fire
