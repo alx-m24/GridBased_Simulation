@@ -43,6 +43,8 @@ Grid::Grid(unsigned int CellSize)
 			grid[i][j] = new Cell(CellSize, pos);
 			backGrid[i][j] = new Cell(CellSize, pos);
 
+			//if (j >= cellNum.y / 2) grid[i][j]->state = 1;
+
 			pos.y += CellSize;
 		}
 
@@ -53,11 +55,14 @@ Grid::Grid(unsigned int CellSize)
 
 void Grid::update()
 {
+	std::thread t2(&Grid::Multigravity, this);
 	std::thread t1(&Grid::mouseDrag, this);
 	//mouseDrag();
 
 	//gravity();
-	Multigravity();
+	//Multigravity();
+
+	t2.join();
 	swapGrids();
 
 	t1.join();
@@ -89,6 +94,7 @@ void Grid::swapGrids()
 	for (int i = 0; i < cellNum.x ; ++i) {
 		for (int j = 0; j < cellNum.y; ++j) {
 			grid[i][j]->state = backGrid[i][j]->state;
+			if (grid[i][j]->state) window->draw(*grid[i][j]);
 			backGrid[i][j]->state = 0;
 		}
 	}

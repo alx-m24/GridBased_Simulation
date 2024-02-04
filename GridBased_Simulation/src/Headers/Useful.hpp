@@ -10,4 +10,5 @@ void fps(sf::Text* fpsText, sf::Clock* clock, unsigned int* Frame);
 // Setup Window
 void setupWindow();
 void hideConsole();
+void showConsole();
 int rand50();

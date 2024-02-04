@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 // Other
 #include <iostream>
+#include <thread>
 // My headers
 #include "Headers/MainLoop.hpp"
 #include "Headers/Common.hpp"
@@ -48,7 +49,7 @@ int main() {
 		g.update();
 
 		// rendering all objects
-		g.draw();
+		//g.draw();
 		fps(&fpsText, &FPSclock, &Frame);
 		loop.Render();
 	}

@@ -22,6 +22,8 @@ void fps(sf::Text* fpsText, sf::Clock* clock, unsigned int* Frame)
 
 void setupWindow()
 {
+	showConsole();
+
 	window->setPosition(window->getPosition() - sf::Vector2i(0, 50));
 	//window->setVerticalSyncEnabled(true);
 
@@ -30,6 +32,7 @@ void setupWindow()
 	std::cin >> fpsLimit;
 	std::cout << std::endl;
 	window->setFramerateLimit(abs(fpsLimit));
+
 	windowSize = sf::Vector2f(window->getSize());
 	arial.loadFromFile("C:/Windows/Fonts/arial.ttf");
 }
@@ -37,6 +40,11 @@ void setupWindow()
 void hideConsole()
 {
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
+}
+
+void showConsole()
+{
+	ShowWindow(GetConsoleWindow(), SW_SHOW);
 }
 
 int rand50()
